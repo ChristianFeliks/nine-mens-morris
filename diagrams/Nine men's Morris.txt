@@ -1,0 +1,19 @@
+Pre vygenerovanie herného poľa pre našu implementáciu hry Nine Men's Morris alebo inak Mlyn je potrebné:
+1. V cykle vytvoriť určitý počet políčok(Tile) a naplniť nimi naše herné pole (v hre Nine Men's Morris sa používa presne 24 políčok), cyklus končí, keď je do herného poľa vložený potrebný počet políčok
+2. Následne pre každé políčko nastavíme aj s ktorými inými políčkami susedí
+3. Podobne v cykle vytvoríme aj maticu políčok v ktorej bude každý riadok reprezentovať možnú kombináciu, spojením ktorej by vznikol mlyn. Týchto kombinácií je presne 16
+
+Pri každom ťahu v hre Nine Men's Morris sa kontorluje, či:
+1. Hráč vykonal platný ťah
+2. Hráč vytvoril mlyn, teda druhékmu hráčovi odoberie jedno z jeho políčok
+3. Druhému hráčovi ostáva dostatočný počet zabraných políčok aby pokračoval v hre, ak nie prvý hráč vyhráva
+4. Pre druhého hráča existuje platný ťah, ak nie prvý hráč vyhráva
+5. Druhý hráč má zabrané práve 3 políčka, teda prechádza do stavu JUMPING a môže sa presúvať aj na voľné políčka s ktorými nesusedí
+
+Políčka rozoznávajú stavy zabraný(OCCUPIED) a nezabraný(UNOCCUPIED).
+Medzi týmito stavmi prechádzajú v zavíslosti či jedenému z hráčov práve patrí.
+
+Hráči prechádzajú stavmi kedy:
+môžu len zaberať políčka(PLACING)
+môžu sa posúvať(MOVING)
+

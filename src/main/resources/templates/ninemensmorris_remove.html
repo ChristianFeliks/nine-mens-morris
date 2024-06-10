@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Nine Men's Morris</h1>
+
+<div class="gameInfo">
+    <p><b>Player 1</b><br> Pieces left to place: <span th:text="${player1.getNumberOfPiecesLeftToPlace()}"/><br>
+        Pieces placed: <span th:text="${player1.getNumberOfPiecesPlaced()}"/>
+    </p>
+
+    <p><b>Player 2</b><br> Pieces left to place: <span th:text="${player2.getNumberOfPiecesLeftToPlace()}"/><br>
+        Pieces placed: <span th:text="${player2.getNumberOfPiecesPlaced()}"/>
+    </p>
+    <!-- Add more information here -->
+
+</div>
+<div class="message">
+    <p th:text="${message}"></p>
+</div>
+
+
+<div class="main">
+
+    <div style="position: relative;">
+        <img src="/images/board.png" alt="Board" usemap="#boardmap">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+            <g th:each="position : ${#numbers.sequence(0,23)}"
+               th:if="${field.getFieldPositionByIndex(position)?.getPlayerOccupying()?.getName() == player1.getName()}">
+                <circle th:cx="${field.getFieldPositionByIndex(position).getDrawPosX()}"
+                        th:cy="${field.getFieldPositionByIndex(position).getDrawPosY()}" r="14" fill="red"/>
+            </g>
+            <g th:each="position : ${#numbers.sequence(0,23)}"
+               th:if="${field.getFieldPositionByIndex(position)?.getPlayerOccupying()?.getName() == player2.getName()}">
+                <circle th:cx="${field.getFieldPositionByIndex(position).getDrawPosX()}"
+                        th:cy="${field.getFieldPositionByIndex(position).getDrawPosY()}" r="14" fill="blue"/>
+            </g>
+        </svg>
+    </div>
+
+
+    <map name="boardmap">
+        <area shape="circle" coords="42,42,14" href="/ninemensmorris/remove?position=0">
+        <area shape="circle" coords="255,42,14" href="/ninemensmorris/remove?position=1">
+        <area shape="circle" coords="469,42,14" href="/ninemensmorris/remove?position=2">
+        <area shape="circle" coords="42,255,14" href="/ninemensmorris/remove?position=9">
+        <area shape="circle" coords="42,469,14" href="/ninemensmorris/remove?position=21">
+        <area shape="circle" coords="255,469,14" href="/ninemensmorris/remove?position=22">
+        <area shape="circle" coords="469,469,14" href="/ninemensmorris/remove?position=23">
+        <area shape="circle" coords="469,255,14" href="/ninemensmorris/remove?position=14">
+
+        <area shape="circle" coords="116,116,14" href="/ninemensmorris/remove?position=3">
+        <area shape="circle" coords="255,116,14" href="/ninemensmorris/remove?position=4">
+        <area shape="circle" coords="396,116,14" href="/ninemensmorris/remove?position=5">
+        <area shape="circle" coords="116,255,14" href="/ninemensmorris/remove?position=10">
+        <area shape="circle" coords="116,396,14" href="/ninemensmorris/remove?position=18">
+        <area shape="circle" coords="255,396,14" href="/ninemensmorris/remove?position=19">
+        <area shape="circle" coords="396,396,14" href="/ninemensmorris/remove?position=20">
+        <area shape="circle" coords="396,255,14" href="/ninemensmorris/remove?position=13">
+
+        <area shape="circle" coords="188,188,14" href="/ninemensmorris/remove?position=6">
+        <area shape="circle" coords="255,188,14" href="/ninemensmorris/remove?position=7">
+        <area shape="circle" coords="324,188,14" href="/ninemensmorris/remove?position=8">
+        <area shape="circle" coords="188,255,14" href="/ninemensmorris/remove?position=11">
+        <area shape="circle" coords="188,324,14" href="/ninemensmorris/remove?position=15">
+        <area shape="circle" coords="255,324,14" href="/ninemensmorris/remove?position=16">
+        <area shape="circle" coords="324,324,14" href="/ninemensmorris/remove?position=18">
+        <area shape="circle" coords="324,255,14" href="/ninemensmorris/remove?position=12">
+    </map>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+</body>
+</html>

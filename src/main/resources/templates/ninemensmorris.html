@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="main">
+<div class="gameInfo-container">
+    <div class="header-container">
+        <a href="/ninemensmorris/startup">
+            <img src="/images/go-back.png">
+        </a>
+        <h1 th:style="'color: ' + ${currentPlayerColor}" >Nine Men's Morris</h1>
+
+    </div>
+    <div class="gameInfo">
+        <p><b><span th:text="${player1.getName()}" /></b><br> Pieces left to place: <span
+                th:text="${player1.getNumberOfPiecesLeftToPlace()}"/><br>
+            Pieces placed: <span th:text="${player1.getNumberOfPiecesPlaced()}"/>
+        </p>
+
+        <div class="round-counter">
+            <h2>Current Round: </h2>
+            <span th:text="${round}"/>
+        </div>
+
+        <p><b><span th:text="${player2.getName()}"/></b><br> Pieces left to place: <span
+                th:text="${player2.getNumberOfPiecesLeftToPlace()}"/><br>
+            Pieces placed: <span th:text="${player2.getNumberOfPiecesPlaced()}"/>
+        </p>
+        <!-- Add more information here -->
+    </div>
+</div>
+<div class="container">
+    <div class="board-container">
+        <div class="message">
+            <p th:text="${message}"></p>
+        </div>
+        <div class="game-over-message" th:if="${isGameOver}" style="margin-bottom: 100px">
+            <h2 th:text="${gameOverMessage}"></h2>
+            <h3 th:text="${gameDuration}"></h3>
+        </div>
+
+        <div style="position: relative;" th:if="${!isGameOver}">
+            <img src="/images/board.png" alt="Board" usemap="#boardmap">
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                <g th:each="position : ${#numbers.sequence(0,23)}"
+                   th:if="${field.getFieldPositionByIndex(position)?.getPlayerOccupying()?.getName() == player1.getName()}">
+                    <circle th:cx="${field.getFieldPositionByIndex(position).getDrawPosX()}"
+                            th:cy="${field.getFieldPositionByIndex(position).getDrawPosY()}" r="14" fill="red"/>
+                </g>
+                <g th:each="position : ${#numbers.sequence(0,23)}"
+                   th:if="${field.getFieldPositionByIndex(position)?.getPlayerOccupying()?.getName() == player2.getName()}">
+                    <circle th:cx="${field.getFieldPositionByIndex(position).getDrawPosX()}"
+                            th:cy="${field.getFieldPositionByIndex(position).getDrawPosY()}" r="14" fill="blue"/>
+                </g>
+            </svg>
+        </div>
+        <map name="boardmap" th:if="${!isGameOver}">
+            <area shape="circle" coords="42,42,14" href="/ninemensmorris/move?position=0">
+            <area shape="circle" coords="255,42,14" href="/ninemensmorris/move?position=1">
+            <area shape="circle" coords="469,42,14" href="/ninemensmorris/move?position=2">
+            <area shape="circle" coords="42,255,14" href="/ninemensmorris/move?position=9">
+            <area shape="circle" coords="42,469,14" href="/ninemensmorris/move?position=21">
+            <area shape="circle" coords="255,469,14" href="/ninemensmorris/move?position=22">
+            <area shape="circle" coords="469,469,14" href="/ninemensmorris/move?position=23">
+            <area shape="circle" coords="469,255,14" href="/ninemensmorris/move?position=14">
+
+            <area shape="circle" coords="116,116,14" href="/ninemensmorris/move?position=3">
+            <area shape="circle" coords="255,116,14" href="/ninemensmorris/move?position=4">
+            <area shape="circle" coords="396,116,14" href="/ninemensmorris/move?position=5">
+            <area shape="circle" coords="116,255,14" href="/ninemensmorris/move?position=10">
+            <area shape="circle" coords="116,396,14" href="/ninemensmorris/move?position=18">
+            <area shape="circle" coords="255,396,14" href="/ninemensmorris/move?position=19">
+            <area shape="circle" coords="396,396,14" href="/ninemensmorris/move?position=20">
+            <area shape="circle" coords="396,255,14" href="/ninemensmorris/move?position=13">
+
+            <area shape="circle" coords="188,188,14" href="/ninemensmorris/move?position=6">
+            <area shape="circle" coords="255,188,14" href="/ninemensmorris/move?position=7">
+            <area shape="circle" coords="324,188,14" href="/ninemensmorris/move?position=8">
+            <area shape="circle" coords="188,255,14" href="/ninemensmorris/move?position=11">
+            <area shape="circle" coords="188,324,14" href="/ninemensmorris/move?position=15">
+            <area shape="circle" coords="255,324,14" href="/ninemensmorris/move?position=16">
+            <area shape="circle" coords="324,324,14" href="/ninemensmorris/move?position=17">
+            <area shape="circle" coords="324,255,14" href="/ninemensmorris/move?position=12">
+        </map>
+    </div>
+
+    <div class="buttons-container">
+        <a href="/ninemensmorris/new" class="btn">New Game</a>
+        <a href="/ninemensmorris/scores" class="btn">Score</a>
+        <a href="/ninemensmorris/comments" class="btn">Comments</a>
+        <a href="/ninemensmorris/ratings" class="btn">Rating</a>
+
+        <div th:if="${score}" class="scoreTable">
+            <table>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+                <tr th:each="score : ${scores}">
+                    <td th:text="${score.getPlayer()}"></td>
+                    <td th:text="${score.getPoints()}"></td>
+                    <td th:text="${score.getPlayedOn()}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div th:if="${commentToogle}" class="commentTable">
+            <table>
+                <tr>
+                    <th>Player</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                </tr>
+                <tr th:each="comment : ${comments}">
+                    <td th:text="${comment.getPlayer()}"></td>
+                    <td th:text="${comment.getComment()}"></td>
+                    <td th:text="${comment.getCommentedOn()}"></td>
+                </tr>
+            </table>
+            <div>
+                <form action="/ninemensmorris/comments" method="post">
+                    <label for="commentText">Comment:</label><br>
+                    <input type="text" id="commentText" name="text"><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
+        </div>
+
+        <div th:if="${rating}" class="averageRating">
+            <table>
+                <tr>
+                    <th>Average Rating</th>
+                </tr>
+                <tr>
+                    <td th:text="${avgRating}"></td>
+                </tr>
+            </table>
+
+            <div class="ratingStars">
+                <label for="commentText">Rate:</label><br>
+                <img src="/images/5stars.jpg" usemap="#ratingStar" style="width: 150px; height: 30px">
+            </div>
+            <map name="ratingStar">
+                <area shape="rect" coords="0,0,30,30" href="/ninemensmorris/ratings?rating=1">
+                <area shape="rect" coords="30,0,60,30" href="/ninemensmorris/ratings?rating=2">
+                <area shape="rect" coords="60,0,90,30" href="/ninemensmorris/ratings?rating=3">
+                <area shape="rect" coords="90,0,120,30" href="/ninemensmorris/ratings?rating=4">
+                <area shape="rect" coords="120,0,150,30" href="/ninemensmorris/ratings?rating=5">
+            </map>
+
+        </div>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+</div>
+
+</div>
+
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('map[name="ratingStar"] area').on('click', function (e) {
+            e.preventDefault(); // Prevent the default GET request
+
+            // Send a POST request
+            $.post($(this).attr('href'), function (data) {
+            });
+        });
+    });
+</script>

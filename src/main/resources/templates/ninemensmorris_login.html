@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/styles_login.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>Login</h1>
+    <form action="/ninemensmorris/login" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <div class="button-group">
+            <input type="submit" value="Login">
+            <a href="/ninemensmorris/register" class="register-button">Register</a>
+            <a href="/ninemensmorris/startup" class="register-button">Continue as guest</a>
+        </div>
+    </form>
+
+    <p th:if="${loginError}" th:text="${loginError}" style="color: red;"></p>
+
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

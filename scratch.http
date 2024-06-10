@@ -1,0 +1,55 @@
+GET http://localhost:8080/api/score/ninemensmorris
+Accept: application/json
+###
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "ninemensmorris",
+  "player": "player2",
+  "points": 1300,
+  "playedOn": "2024-04-01T17:40:25.736+00:00"
+}
+###
+
+
+GET http://localhost:8080/api/comment/ninemensmorris
+Accept: application/json
+###
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "game": "ninemensmorris",
+  "player": "player3",
+  "comment": "Interesting game",
+  "commentedOn": "2024-04-01T17:42:25.736+00:00"
+}
+###
+
+
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "ninemensmorris",
+  "player": "player6",
+  "rating": 1,
+  "ratedOn": "2024-04-01T17:44:25.736+00:00"
+}
+###
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "ninemensmorris",
+  "player": "player6",
+  "rating": 4,
+  "ratedOn": "2024-04-01T17:44:25.736+00:00"
+}
+###
+GET http://localhost:8080/api/rating/ninemensmorris
+Accept: application/json
+###
+GET http://localhost:8080/api/rating/ninemensmorris/player6
+Accept: application/json

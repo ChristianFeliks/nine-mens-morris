@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/styles_login.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="header-container">
+    <a href="/ninemensmorris/logout" class="register-button">Log out</a>
+    <h1>Nine Men's Morris</h1>
+</div>
+
+<div class="container">
+    <form action="/ninemensmorris/startup" method="post" onsubmit="return validateForm()">
+        <label for="player2">Player 2:</label><br>
+        <input type="text" id="player2" name="player2Name"><br>
+
+        <div class="radio-option">
+            <input type="radio" id="humanVsHuman" name="gameMode" value="HUMAN_VS_HUMAN">
+            <label for="humanVsHuman">Human vs Human</label>
+        </div>
+        <div class="radio-option">
+            <input type="radio" id="humanVsEasyBot" name="gameMode" value="HUMAN_VS_RANDOM_BOT">
+            <label for="humanVsEasyBot">Human vs Easy Bot</label>
+        </div>
+        <div class="radio-option">
+            <input type="radio" id="humanVsNormalBot" name="gameMode" value="HUMAN_VS_SMART_BOT">
+            <label for="humanVsNormalBot">Human vs Normal Bot</label>
+        </div>
+
+        <input type="submit" value="Start Game">
+    </form>
+</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>
+
+<script>
+    function validateForm() {
+        var radios = document.getElementsByName('gameMode');
+        var formValid = false;
+
+        var i = 0;
+        while (!formValid && i < radios.length) {
+            if (radios[i].checked) formValid = true;
+            i++;
+        }
+
+        if (!formValid) alert("Please select a game mode.");
+        return formValid;
+    }
+</script>
